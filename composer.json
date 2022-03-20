@@ -1,0 +1,20 @@
+{
+    "name": "danny/mysql-query-builder",
+    "description": "PHP package to make building MySQL queries user-friendly, intended for use with an ORM.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Danny\\MysqlQueryBuilder\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Danny",
+            "email": "contactdanielhuggins@gmail.com"
+        }
+    ],
+    "require": {
+        "php":">=8.0"
+    }
+}
