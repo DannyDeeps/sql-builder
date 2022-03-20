@@ -9,8 +9,7 @@ class Controller
     private Query\Select $selectQuery;
     private Query\Insert $insertQuery;
     private Query\Update $updateQuery;
-
-    private array $unionQueries;
+    private Query\Join   $joinQuery;
 
 
     public function select(string $database, string $table, array $fields= [])
@@ -27,41 +26,19 @@ class Controller
     }
 
 
-    public function unionSelect(string $database, string $table, array $fields= [])
+    public function join(string $joinKey, string $database, string $table, array $fields= [])
     {
-        if ($this->queryType !== Query\Types::SELECT) {
-            throw new \Exception('Main query type is not a \'SELECT\', union not available.');
+        if (!in_array($this->queryType, [ Query\Types::SELECT, Query\Types::JOIN ])) {
+            throw new \Exception('join() can only be used with select queries but current query type is: ' . Query\Types::getName($this->queryType));
         }
 
-        $this->selectQuery->addUnion($database, $table, $fields);
+        $this->queryType= Query\Types::JOIN;
 
-        return $this;
-    }
-
-
-    public function insert(string $database, string $table, array $fields= [])
-    {
-        if (!empty($this->insertQuery)) {
-            throw new \Exception('Insert query already defined.');
+        if (empty($this->joinQuery)) {
+            $this->joinQuery= new Query\Join($this->selectQuery);
         }
 
-        $this->queryType= Query\Types::INSERT;
-
-        $this->insertQuery= new Query\Insert($database, $table, $fields);
-
-        return $this;
-    }
-
-
-    public function update(string $database, string $table, array $fields= [])
-    {
-        if (!empty($this->updateQuery)) {
-            throw new \Exception('Update query already defined.');
-        }
-
-        $this->queryType= Query\Types::UPDATE;
-
-        $this->updateQuery= new Query\Update($database, $table, $fields);
+        $this->joinQuery->addJoin($joinKey, $database, $table, $fields);
 
         return $this;
     }
@@ -78,6 +55,7 @@ class Controller
             Query\Types::INSERT => $this->insertQuery,
             Query\Types::UPDATE => $this->updateQuery,
             Query\Types::DELETE => $this->deleteQuery,
+            Query\Types::JOIN   => $this->joinQuery,
 
             default => throw new \Exception('Query type not recognized: ' . $this->queryType)
         };

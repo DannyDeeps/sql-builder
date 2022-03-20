@@ -4,9 +4,6 @@ namespace Danny\MysqlQueryBuilder\Query;
 
 class Select
 {
-    private array $unionQueries= [];
-
-
     public function __construct(
         private string $database,
         private string $table,
@@ -14,9 +11,19 @@ class Select
     ) {}
 
 
-    public function addUnion(string $database, string $table, array $fields= [])
+    public function __call(string $method, array $arguments)
     {
-        $this->unionQueries[]= new Addons\Union($database, $table, $fields);
+        switch (true) {
+            case str_starts_with($method, 'get'):
+                $prop= trim(strtolower(substr($method, 3)));
+
+                if (property_exists($this, $prop)) {
+                    return $this->$prop;
+                }
+
+                throw new \Exception('Property does not exist: ' . $prop);
+            break;
+        }
     }
 
 
@@ -27,15 +34,6 @@ class Select
         $queryStringParts[]= 'FROM ' . $this->database . '.' . $this->table;
 
         $queryString= implode(' ', $queryStringParts);
-
-        if (!empty($this->unionQueries)) {
-            $unionQueries= [];
-            foreach ($this->unionQueries as $unionQuery) {
-                $unionQueries[]= $unionQuery->getQueryString();
-            }
-
-            $queryString= $queryString . ' ' . implode(' ', $unionQueries);
-        }
 
         return $queryString;
     }

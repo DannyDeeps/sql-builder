@@ -1,6 +1,6 @@
 <?php
 
-namespace Danny\MysqlQueryBuilder\Query\Addons;
+namespace Danny\MysqlQueryBuilder\Query;
 
 class Union
 {
