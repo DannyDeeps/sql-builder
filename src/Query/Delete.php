@@ -2,7 +2,7 @@
 
 namespace SqlBuilder\Query;
 
-class Insert {
+class Delete {
   public function __construct(
     private string $database,
     private string $table,

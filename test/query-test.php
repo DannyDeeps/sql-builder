@@ -4,47 +4,45 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 
 // SELECT TEST
-// $fields= [ 'id', 'name' ];
+$fields = ['id', 'name'];
 
-// $mysqlQuery= new Danny\MysqlQueryBuilder\Controller;
-// $mysqlQuery
-//     ->select('test', 'main_object', $fields)
-//     ->unionSelect('test', 'sub_object', $fields);
+$mysqlQuery = new SqlBuilder\Controller;
+$mysqlQuery
+  ->select('test', 'main_object', $fields)
+  ->unionSelect('test', 'sub_object', $fields);
 
-// $queryString= $mysqlQuery->getQueryString();
+$queryString = $mysqlQuery->getQueryString();
 
 
 // JOIN TEST
-$mysqlQuery= new Danny\MysqlQueryBuilder\Controller;
+$mysqlQuery = new SqlBuilder\Controller;
 $mysqlQuery
-    ->select('test', 'main_object', [ 'id', 'name' ])
-    ->join('main_object_id', 'test', 'sub_object', [ 'name' ])
-    ->join('main_object_id', 'test2', 'main_object_details', [ 'detail' ]);
+  ->select('test', 'main_object', ['id', 'name'])
+  ->join('main_object_id', 'test', 'sub_object', ['name'])
+  ->join('main_object_id', 'test2', 'main_object_details', ['detail']);
 
-$queryString= $mysqlQuery->getQueryString();
+$queryString = $mysqlQuery->getQueryString();
 
 
 
-$testCon= new PDO('mysql:host=localhost;', 'root', '');
-$results= $testCon->query($queryString)->fetchAll(PDO::FETCH_OBJ);
+$testCon = new PDO('mysql:host=localhost;', 'root', '');
+$results = $testCon->query($queryString)->fetchAll(PDO::FETCH_OBJ);
 
-$classes= [];
+$classes = [];
 
 foreach ($results as $result) {
-    $classProperties= [];
+  $classProperties = [];
 
-    foreach ($result as $classProp => $value) {
-        list($class, $property)= explode('.', $classProp);
+  foreach ($result as $classProp => $value) {
+    list($class, $property) = explode('.', $classProp);
 
-        $classProperties[$property]= $value;
-    }
-
-    $cl
+    $classProperties[$property] = $value;
+  }
 }
 
-die('<pre>'.print_r([
-    'mysqlQuery' => $mysqlQuery,
-    'query' => $queryString,
-    'results' => $results,
-    'classes' => $classes
-], true).'</pre>');
+die('<pre>' . print_r([
+  'mysqlQuery' => $mysqlQuery,
+  'query' => $queryString,
+  'results' => $results,
+  'classes' => $classes
+], true) . '</pre>');

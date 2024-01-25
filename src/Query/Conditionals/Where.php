@@ -1,8 +1,6 @@
 <?php
 
-namespace Danny\MysqlQueryBuilder\Query\Conditionals;
+namespace SqlBuilder\Query\Conditionals;
 
-class Where
-{
-
+class Where {
 }

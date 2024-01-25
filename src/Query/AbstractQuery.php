@@ -1,7 +1,6 @@
 <?php
 
-namespace Danny\MysqlQueryBuilder\Query;
+namespace SqlBuilder\Query;
 
-class AbstractQuery
-{
+class AbstractQuery {
 }
