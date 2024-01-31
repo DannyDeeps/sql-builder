@@ -8,6 +8,7 @@ class Controller {
   private Query\Select $selectQuery;
   private Query\Insert $insertQuery;
   private Query\Update $updateQuery;
+  private Query\Delete $deleteQuery;
   private Query\Join   $joinQuery;
 
 
