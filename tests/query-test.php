@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 // SELECT TEST
 $fields = ['id', 'name'];
 
@@ -13,7 +12,6 @@ $mysqlQuery
 
 $queryString = $mysqlQuery->getQueryString();
 
-
 // JOIN TEST
 $mysqlQuery = new SqlBuilder\Controller;
 $mysqlQuery
@@ -22,8 +20,6 @@ $mysqlQuery
   ->join('main_object_id', 'test2', 'main_object_details', ['detail']);
 
 $queryString = $mysqlQuery->getQueryString();
-
-
 
 $testCon = new PDO('mysql:host=localhost;', 'root', '');
 $results = $testCon->query($queryString)->fetchAll(PDO::FETCH_OBJ);
