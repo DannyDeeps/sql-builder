@@ -10,7 +10,6 @@ class Types {
   const JOIN =   5;
   const UNION =  6;
 
-
   public static function getName(int $typeId) {
     return match ($typeId) {
       self::SELECT => 'select',

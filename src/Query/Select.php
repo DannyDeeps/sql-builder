@@ -2,14 +2,13 @@
 
 namespace SqlBuilder\Query;
 
-class Select {
+ class Select {
   public function __construct(
     private string $database,
     private string $table,
     private array $fields = []
   ) {
   }
-
 
   public function __call(string $method, array $arguments) {
     switch (true) {
@@ -24,7 +23,6 @@ class Select {
         break;
     }
   }
-
 
   public function getQueryString() {
     $queryStringParts = ['SELECT'];

@@ -2,5 +2,5 @@
 
 namespace SqlBuilder\Query;
 
-class AbstractQuery {
+abstract class Query {
 }
